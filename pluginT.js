@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         L w smol Sp sidebar
+// @name         L w cust Sp sidebar
 // @namespace    http://tampermonkey.net/
-// @version      0.5.11111
+// @version      0.52
 // @description  Scroll menu to navigate to specific letters
 // @author       er+sky
 // @match        https://tahvel.edu.ee/
@@ -10,10 +10,9 @@
 
 (function() {
     'use strict';
-
-    //сделать адаптивные пробелы можн ч привязку к нескольким шир экрана
-    // положить всё в md-content с отступом ~64 пикселей. разн на кажд шир экрана
-    // Delay the execution to ensure all elements are loaded before processing
+  // Глобальная переменная Delay
+    let SetStartTimer = 1000;
+  // Delay the execution to ensure all elements are loaded before processing
   function runUserScript() {
     setTimeout(() => {
 		// Выбираем все элементы с классом schoolTileFooter
@@ -45,14 +44,20 @@
         });
 
         const menuContainer = document.createElement('div');
+//        menuContainer.style.position = 'fixed';
+//        menuContainer.style.top = '54%';
+//        menuContainer.style.right = '3px';
+//        menuContainer.style.background = '#22ff0033';
+//        menuContainer.style.height = '85%';
+//        menuContainer.style.padding = '2px';
+//        menuContainer.style.textAlign = 'center';
+//        menuContainer.style.transform = 'translateY(-50%)';
         menuContainer.style.position = 'fixed';
-        menuContainer.style.top = '54%';
         menuContainer.style.right = '3px';
         menuContainer.style.height = '85%';
         menuContainer.style.padding = '2px';
         menuContainer.style.textAlign = 'center';
-        menuContainer.style.transform = 'translateY(-50%)';
-//        menuContainer.style.background = 'red';
+//            menuContainer.style.background = '#22ff0033';
         menuContainer.id = 'menuContainer';
         menuContainer.style.zIndex = 9999;
 
@@ -66,6 +71,7 @@
                 menuItem.style.marginBottom = '0px';
                 menuItem.style.padding = '0px';
                 menuItem.style.height = '10px';
+                menuItem.classList.add('spLtr');
             }
 
             menuItem.addEventListener('click', () => {
@@ -100,7 +106,7 @@
 `;
 	document.head.appendChild(style);
 
-	}, 400);
+	}, SetStartTimer);
   }
 
 
@@ -108,17 +114,28 @@
 
 
 function adjustHeight() {
+    const windowHeight = window.innerHeight;
+    const elements = document.querySelectorAll('.spLtr');
+
+    for (let i = 1; i <= 20; i++) {
+      if (windowHeight >= i * 100) {
+        elements.forEach(element => {
+            // Установить высоту sp элементов в зав. от windowHeight
+            element.style.height = i < 6 ? '0px' : (i-2) + 'px';
+    });}}
+
     const menuSidebar = document.getElementById('menuContainer');
     if (menuSidebar) {
         if (window.innerWidth < 900) {
-            menuSidebar.style.height = '94%';
+            // Установить отступ menu в зав. от windowWidth
+            menuSidebar.style.top = '64px';
         } else {
-            menuSidebar.style.height = '85%';
+            menuSidebar.style.top = '96px';
         }
-    } else {
-        console.log('Элемент с id "menuContainer" не найден.');
     }
+    //else { console.log('Элемент с #menuContainer не найден.');    }
 }
+
 adjustHeight();			// Обработчик изменения размеров окна
 window.addEventListener('resize', adjustHeight);
 
@@ -129,6 +146,10 @@ window.addEventListener('resize', adjustHeight);
 
 // Запуск кода при загрузке страницы
 runUserScript();
+// Устанавливаем задержку в миллисекундах из переменной SetStTimer и вызываем функцию adjustHeight() после этой задержки
+setTimeout(() => {
+    adjustHeight();
+}, SetStartTimer+100);
 
 // Обработчики событий для повторного запуска кода
 window.addEventListener('popstate', function(event) {
