@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Letters to side
+// @name         LwSp to sidebar
 // @namespace    http://tampermonkey.net/
-// @version      0.45
+// @version      0.5
 // @description  Scroll menu to navigate to specific letters
 // @author       er+sky
 // @match        https://tahvel.edu.ee/
@@ -53,7 +53,7 @@
         spacedLetters.forEach(letter => {
             const menuItem = document.createElement('div');
             menuItem.textContent = letter;
-            menuItem.style.cssText = 'cursor: pointer; padding: 0 12px; margin-bottom: 5px;';
+            menuItem.style.cssText = 'cursor:pointer; padding:0 12px; margin-bottom:5px;';
             menuItem.style.backgroundColor = 'rgba(190, 190, 190, 0.6)';
             if(letter == isNbsp){
                 menuItem.style.backgroundColor = 'rgba(255, 255, 255, 0)';
@@ -63,14 +63,36 @@
 
             menuItem.addEventListener('click', () => {
                 const targetElement = document.querySelector(`.firstLetterIs${letter}`);
+                const parentElement = targetElement.parentElement.parentElement.parentElement;
+
                 if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: "smooth", block: "end" });
+                    // Прокрутка к элементу
+                    targetElement.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                    setTimeout(() => {
+                        parentElement.style.boxShadow = '0px 10px 20px 2px rgba(0, 0, 0, 0.25)'
+                        setTimeout(() => {
+                            parentElement.style.boxShadow = ''
+                        }, 1000); // Через 1 секунду (1000 миллисекунд)
+                    }, 200); // Через 1 секунду (1000 миллисекунд)
+
                 }
             });
-
             menuContainer.appendChild(menuItem);
         });
-
         document.body.appendChild(menuContainer);
+
+
+
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+.fade-out {
+    animation: fadeOut 1s ease;
+}
+
+`;
+        document.head.appendChild(style);
+
     }, 400);
 })()
