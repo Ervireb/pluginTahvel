@@ -1,12 +1,23 @@
 // ==UserScript==
-// @name         L + Sp sidebar
+// @name         sidebar + darkmode
 // @namespace    http://tampermonkey.net/
-// @version      0.53
+// @version      0.59
 // @description  Scroll menu to navigate to specific letters
 // @author       er+sky
 // @match        https://tahvel.edu.ee/
-// @grant        none
+// @grant        GM_addStyle
 // ==/UserScript==
+
+
+//---------▼▼Sky▼▼---------------------------------------------------------------------------
+
+GM_addStyle ("span {color: red; font-size:smaller} .schoolList {background-color: black} md-grid-tile {background-color: black} #site-sidenav-scroll-wrapper {background-color: black}")
+GM_addStyle ("#site-sidenav {background-color: black} parent-list-item {background-color: black} #main-wrapper {background-color: black}")
+GM_addStyle ("#main-toolbar {background-color: black} site-sidenav-scroll-wrapper {background-color: black}")
+GM_addStyle ("_md {background-color: black} md-content {background-color: black; home-page-container {border: solid green 5px}")
+
+//---------▼▼erv▼▼---------------------------------------------------------------------------
+
 
 (function() {
     'use strict';
