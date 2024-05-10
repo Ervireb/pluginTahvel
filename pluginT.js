@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Letters Scroll Menu
+// @name         Sidebar trying
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.31
 // @description  Scroll menu to navigate to specific letters
 // @author       me
 // @match        https://tahvel.edu.ee/
@@ -42,9 +42,9 @@
             menuItem.textContent = letter;
 
             menuItem.addEventListener('click', () => {
-                const targetElement = document.querySelector(`figcaption > span:first-of-type:not([style*="display: none;"]):not([style*="visibility: hidden;"]):not([style*="opacity: 0;"]):not([style*="height: 0;"]):not([style*="width: 0;"]):not([style*="max-height: 0;"]):not([style*="max-width: 0;"]):not([style*="min-height: 0;"]):not([style*="min-width: 0;"]):not([style*="padding-top: 0;"]):not([style*="padding-right: 0;"]):not([style*="padding-bottom: 0;"]):not([style*="padding-left: 0;"])`);
+                const targetElement = document.querySelector(`.firstLetterIs${letter}`);
                 if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+                    targetElement.scrollIntoView({ behavior: "smooth", block: "center" });
                 }
             });
 
